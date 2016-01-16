@@ -83,93 +83,93 @@ fi
 if [ -z "$DEFAULT" ];then
   echo
   echo "Please select a Project:"
-  OPTIONS="SMP SMI CHIP SEC SR Something_Else"
+  OPTIONS="Proj1 Proj2 Proj3 Proj4 Proj5 Something_Else"
   select opt in $OPTIONS; do
      if [ "$opt" == "SMP" ]; then
-      CHOSEN="SMP"
-      if [ -z "$SMP" ];then
+      CHOSEN="Proj1"
+      if [ -z "$Proj1" ];then
         echo "Do you want $CHOSEN to set as default?"
         PROMPT="Yes No"
         select ans in $PROMPT; do
             if [ "$ans" == "Yes" ];then
               echo SMP set as default
-              DEFAULT="SMP"
-              echo 'DEFAULT="SMP"' >> ~/jira_automation/jira_automation.conf
+              DEFAULT="Proj1"
+              echo 'DEFAULT="Proj1"' >> ~/jira_automation/jira_automation.conf
               break 2
             else
-              echo 'SMP="FLAGGED"' >> ~/jira_automation/jira_automation.conf
+              echo 'Proj1="FLAGGED"' >> ~/jira_automation/jira_automation.conf
               break 2
             fi
           done
         fi
       break 2
-     elif [ "$opt" == "SMI" ]; then
-      CHOSEN="SMI"
-      if [ -z "$SMI" ];then
+     elif [ "$opt" == "Proj2" ]; then
+      CHOSEN="Proj2"
+      if [ -z "$Proj2" ];then
         echo "Do you want $CHOSEN to set as default?"
         PROMPT="Yes No"
         select ans in $PROMPT; do
             if [ "$ans" == "Yes" ];then
-              echo SMP set as default
-              DEFAULT="SMI"
-              echo 'DEFAULT="SMI"' >> ~/jira_automation/jira_automation.conf
+              echo Proj2 set as default
+              DEFAULT="Proj2"
+              echo 'DEFAULT="Proj2"' >> ~/jira_automation/jira_automation.conf
               break 2
             else
-              echo 'SMI="FLAGGED"' >> ~/jira_automation/jira_automation.conf
+              echo 'Proj2="FLAGGED"' >> ~/jira_automation/jira_automation.conf
               break 2
             fi
           done
         fi
       break 2
-     elif [ "$opt" == "CHIP" ]; then
-      CHOSEN="CHIP"
-      if [ -z "$CHIP" ];then
+     elif [ "$opt" == "Proj3" ]; then
+      CHOSEN="Proj3"
+      if [ -z "$Proj3" ];then
         echo "Do you want $CHOSEN to set as default?"
         PROMPT="Yes No"
         select ans in $PROMPT; do
             if [ "$ans" == "Yes" ];then
-              echo CHIP set as default
-              DEFAULT="CHIP"
-              echo 'DEFAULT="CHIP"' >> ~/jira_automation/jira_automation.conf
+              echo Proj3 set as default
+              DEFAULT="Proj3"
+              echo 'DEFAULT="Proj3"' >> ~/jira_automation/jira_automation.conf
               break 2
             else
-              echo 'CHIP="FLAGGED"' >> ~/jira_automation/jira_automation.conf
+              echo 'Proj3="FLAGGED"' >> ~/jira_automation/jira_automation.conf
               break 2
             fi
           done
         fi
       break 2
-     elif [ "$opt" == "SEC" ]; then
-      CHOSEN="SEC"
-      if [ -z "$SEC" ];then
+     elif [ "$opt" == "Proj4" ]; then
+      CHOSEN="Proj4"
+      if [ -z "$Proj4" ];then
         echo "Do you want $CHOSEN to set as default?"
         PROMPT="Yes No"
         select ans in $PROMPT; do
             if [ "$ans" == "Yes" ];then
-              echo SEC set as default
-              DEFAULT="SEC"
-              echo 'DEFAULT="SEC"' >> ~/jira_automation/jira_automation.conf
+              echo Proj4 set as default
+              DEFAULT="Proj4"
+              echo 'DEFAULT="Proj4"' >> ~/jira_automation/jira_automation.conf
               break 2
             else
-              echo 'SEC="FLAGGED"' >> ~/jira_automation/jira_automation.conf
+              echo 'Proj4="FLAGGED"' >> ~/jira_automation/jira_automation.conf
               break 2
             fi
           done
         fi
       break 2
-      elif [ "$opt" == "SR" ]; then
-      CHOSEN="SR"
-      if [ -z "$SR" ];then
+      elif [ "$opt" == "Proj5" ]; then
+      CHOSEN="Proj5"
+      if [ -z "$Proj5" ];then
         echo "Do you want $CHOSEN to set as default?"
         PROMPT="Yes No"
         select ans in $PROMPT; do
             if [ "$ans" == "Yes" ];then
               echo SR set as default
-              DEFAULT="SR"
-              echo 'DEFAULT="SR"' >> ~/jira_automation/jira_automation.conf
+              DEFAULT="Proj5"
+              echo 'DEFAULT="Proj5"' >> ~/jira_automation/jira_automation.conf
               break 2
             else
-              echo 'SR="FLAGGED"' >> ~/jira_automation/jira_automation.conf
+              echo 'Proj5="FLAGGED"' >> ~/jira_automation/jira_automation.conf
               break 2
             fi
           done  
@@ -203,11 +203,9 @@ if [ -z "$CHOSEN" ];then
   CHOSEN="$DEFAULT"
 fi
 
-#crclient
 > $file
-curl -s -X POST -H "Authorization: Basic $(echo -n $Username:$Password | base64)" -H "Content-Type: application/json" --data '{"jql":"project = '"'$CHOSEN'"' and assignee = '"'$Username'"' and resolution = unresolved","startAt":0,"maxResults":3,"fields":["key"]}' "https://screenmagic-dev.atlassian.net/rest/api/2/search" > $file
 
-#python jira_automation.py
+curl -s -X POST -H "Authorization: Basic $(echo -n $Username:$Password | base64)" -H "Content-Type: application/json" --data '{"jql":"project = '"'$CHOSEN'"' and assignee = '"'$Username'"' and resolution = unresolved","startAt":0,"maxResults":3,"fields":["key"]}' "https://your_ip/rest/api/2/search" > $file
 
 python -c "file_content = open('jira_automation.txt', 'r')
 content = file_content.read()
@@ -245,7 +243,6 @@ else
 fi
 
 if [ "$GIT" -a -d ".git" ];then
-  #if [ -d ".git" ];then
     if [ "$1" == "-f" -o "$1" == "-F" ];then
       echo "Iterating through files selected:"
       FILE_TO_COMMIT=''
@@ -258,12 +255,12 @@ if [ "$GIT" -a -d ".git" ];then
           PROMPT="Yes No"
           select ans in $PROMPT; do
               if [ "$ans" == "Yes" ];then
-                #git add "$var"
-                echo "git add $var"
+                git add "$var"
                 FILE_TO_COMMIT="$FILE_TO_COMMIT $var"
                 break
               elif [ "$ans" == "No" ];then
                 echo "$var will not be committed !!!"
+
                 break 
               else
                 echo "Please enter correct value" 
@@ -282,8 +279,7 @@ if [ "$GIT" -a -d ".git" ];then
         PROMPT="Yes No"
         select ans in $PROMPT; do
           if [ "$ans" == "Yes" ];then
-            #git add "$i"
-            echo "git add $i"
+            git add "$i"
             FILE_TO_COMMIT="$FILE_TO_COMMIT $i"
             break
           elif [ "$ans" == "No" ];then
@@ -306,13 +302,11 @@ if [ "$GIT" -a -d ".git" ];then
       while [ -z "$COMMENT" ];do
         read -p "Enter Worklog Comment/Commit Message(Can't be blank): " COMMENT
       done
-      #git commit -m "$CHOSEN_TICKET : $COMMENT" >> "$CSV_automation.log"
-      echo "git commit -m '"$CHOSEN_TICKET : $COMMENT"' $FILE_TO_COMMIT"
+      git commit -m "$CHOSEN_TICKET : $COMMENT" >> "$CSV_automation.log"
       echo "git commit -m '"$CHOSEN_TICKET : $COMMENT"' $FILE_TO_COMMIT" > ~/jira_automation/GIT_LOG/gitlog
     else
       echo "Nothing to Commit !!!"
     fi
-  #fi
 fi
 
 if [ "$SVN" ]; then
@@ -373,7 +367,7 @@ if [ "$SVN" ]; then
       while [ -z "$COMMENT" ];do
         read -p "Enter Worklog Comment/Commit Message(Can't be blank): " COMMENT
       done
-      echo "svn ci -m '"$CHOSEN_TICKET : $COMMENT"' $FILE_TO_COMMIT"
+      svn ci -m '"$CHOSEN_TICKET : $COMMENT"' $FILE_TO_COMMIT
       echo "svn ci -m '"$CHOSEN_TICKET : $COMMENT"' $FILE_TO_COMMIT" > ~/jira_automation/SVN_LOG/svnlog
     else
       echo "Nothing to commit!!!"
@@ -400,7 +394,7 @@ fi
 
 COMMENT="(This is an automated comment) $COMMENT"
 
-#response=$(curl -s -D- -X POST -H "Authorization: Basic $(echo -n $Username:$Password | base64))" -H "Content-Type: application/json" -d '{"comment": "'"$COMMENT"'","timeSpent": "'"$TIMESPENT"'"}' https://screenmagic-dev.atlassian.net/rest/api/2/issue/$CHOSEN_TICKET/worklog)
+response=$(curl -s -D- -X POST -H "Authorization: Basic $(echo -n $Username:$Password | base64))" -H "Content-Type: application/json" -d '{"comment": "'"$COMMENT"'","timeSpent": "'"$TIMESPENT"'"}' https://your_ip/rest/api/2/issue/$CHOSEN_TICKET/worklog)
 echo "alias jal='bash ~/jira_automation/jira_automation.sh'" >> ~/.bash_alias
 source ~/.bash_alias
 rm "$file"
