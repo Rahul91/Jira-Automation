@@ -1,7 +1,7 @@
 # Jira-Automation
 Commit usgin git/svn/mercurial, it will be autmatically logged to your Jira Ticket
 
-#Summary:
+#Abstract:
 Logging work to your assigned unresolved tickets, given that you are using atlassian Jira can be automated through cli.
 The shell scripts automatically log work, in case of commit, eihter you are working on git or svn or Mercurial.
 And even if you are not committing your code, maybe you worked on some documentation, or were reviewing code, you can log your work
@@ -14,6 +14,9 @@ using this script from your terminl.
 4. Every step can be logged. for later debugging, if required.
 5. While committing, there is a option of specifying files with -f option.
 6. Reduce rework of logging your work in ticket assigned to you.
+
+#Folder Structure:
+Just keep the main shell script in a folder named jira_automation in home directory.
 
 #Working:
 1. Make an alias of the script, or just execute it once, it will create it. It will create a alias of jal(jira automated logging)
